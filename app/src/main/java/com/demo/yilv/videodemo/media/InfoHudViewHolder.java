@@ -16,33 +16,14 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 import tv.danmaku.ijk.media.player.MediaPlayerProxy;
 
 public class InfoHudViewHolder {
-    private TableLayoutBinder mTableLayoutBinder;
-    private SparseArray<View> mRowMap = new SparseArray<View>();
+//    private TableLayoutBinder mTableLayoutBinder;
+//    private SparseArray<View> mRowMap = new SparseArray<View>();
     private IMediaPlayer mMediaPlayer;
     private long mLoadCost = 0;
     private long mSeekCost = 0;
 
     public InfoHudViewHolder(Context context, TableLayout tableLayout) {
-        mTableLayoutBinder = new TableLayoutBinder(context, tableLayout);
-    }
-
-    private void appendSection(int nameId) {
-        mTableLayoutBinder.appendSection(nameId);
-    }
-
-    private void appendRow(int nameId) {
-        View rowView = mTableLayoutBinder.appendRow2(nameId, null);
-        mRowMap.put(nameId, rowView);
-    }
-
-    private void setRowValue(int id, String value) {
-        View rowView = mRowMap.get(id);
-        if (rowView == null) {
-            rowView = mTableLayoutBinder.appendRow2(id, value);
-            mRowMap.put(id, rowView);
-        } else {
-            mTableLayoutBinder.setValueText(rowView, value);
-        }
+       // mTableLayoutBinder = new TableLayoutBinder(context, tableLayout);
     }
 
     public void setMediaPlayer(IMediaPlayer mp) {
@@ -103,60 +84,60 @@ public class InfoHudViewHolder {
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_UPDATE_HUD: {
-                    InfoHudViewHolder holder = InfoHudViewHolder.this;
-                    IjkMediaPlayer mp = null;
-                    if (mMediaPlayer == null)
-                        break;
-                    if (mMediaPlayer instanceof IjkMediaPlayer) {
-                        mp = (IjkMediaPlayer) mMediaPlayer;
-                    } else if (mMediaPlayer instanceof MediaPlayerProxy) {
-                        MediaPlayerProxy proxy = (MediaPlayerProxy) mMediaPlayer;
-                        IMediaPlayer internal = proxy.getInternalMediaPlayer();
-                        if (internal != null && internal instanceof IjkMediaPlayer)
-                            mp = (IjkMediaPlayer) internal;
-                    }
-                    if (mp == null)
-                        break;
-
-                    int vdec = mp.getVideoDecoder();
-                    switch (vdec) {
-                        case IjkMediaPlayer.FFP_PROPV_DECODER_AVCODEC:
-                            setRowValue(R.string.vdec, "avcodec");
-                            break;
-                        case IjkMediaPlayer.FFP_PROPV_DECODER_MEDIACODEC:
-                            setRowValue(R.string.vdec, "MediaCodec");
-                            break;
-                        default:
-                            setRowValue(R.string.vdec, "");
-                            break;
-                    }
-
-                    float fpsOutput = mp.getVideoOutputFramesPerSecond();
-                    float fpsDecode = mp.getVideoDecodeFramesPerSecond();
-                    setRowValue(R.string.fps, String.format(Locale.US, "%.2f / %.2f", fpsDecode, fpsOutput));
-
-                    long videoCachedDuration = mp.getVideoCachedDuration();
-                    long audioCachedDuration = mp.getAudioCachedDuration();
-                    long videoCachedBytes    = mp.getVideoCachedBytes();
-                    long audioCachedBytes    = mp.getAudioCachedBytes();
-                    long tcpSpeed            = mp.getTcpSpeed();
-                    long bitRate             = mp.getBitRate();
-                    long seekLoadDuration    = mp.getSeekLoadDuration();
-
-                    setRowValue(R.string.v_cache, String.format(Locale.US, "%s, %s", formatedDurationMilli(videoCachedDuration), formatedSize(videoCachedBytes)));
-                    setRowValue(R.string.a_cache, String.format(Locale.US, "%s, %s", formatedDurationMilli(audioCachedDuration), formatedSize(audioCachedBytes)));
-                    setRowValue(R.string.load_cost, String.format(Locale.US, "%d ms", mLoadCost));
-                    setRowValue(R.string.seek_cost, String.format(Locale.US, "%d ms", mSeekCost));
-                    setRowValue(R.string.seek_load_cost, String.format(Locale.US, "%d ms", seekLoadDuration));
-                    setRowValue(R.string.tcp_speed, String.format(Locale.US, "%s", formatedSpeed(tcpSpeed, 1000)));
-                    setRowValue(R.string.bit_rate, String.format(Locale.US, "%.2f kbs", bitRate/1000f));
-
-                    mHandler.removeMessages(MSG_UPDATE_HUD);
-                    mHandler.sendEmptyMessageDelayed(MSG_UPDATE_HUD, 500);
-                }
-            }
+//            switch (msg.what) {
+//                case MSG_UPDATE_HUD: {
+//                    InfoHudViewHolder holder = InfoHudViewHolder.this;
+//                    IjkMediaPlayer mp = null;
+//                    if (mMediaPlayer == null)
+//                        break;
+//                    if (mMediaPlayer instanceof IjkMediaPlayer) {
+//                        mp = (IjkMediaPlayer) mMediaPlayer;
+//                    } else if (mMediaPlayer instanceof MediaPlayerProxy) {
+//                        MediaPlayerProxy proxy = (MediaPlayerProxy) mMediaPlayer;
+//                        IMediaPlayer internal = proxy.getInternalMediaPlayer();
+//                        if (internal != null && internal instanceof IjkMediaPlayer)
+//                            mp = (IjkMediaPlayer) internal;
+//                    }
+//                    if (mp == null)
+//                        break;
+//
+//                    int vdec = mp.getVideoDecoder();
+//                    switch (vdec) {
+//                        case IjkMediaPlayer.FFP_PROPV_DECODER_AVCODEC:
+//                            setRowValue(R.string.vdec, "avcodec");
+//                            break;
+//                        case IjkMediaPlayer.FFP_PROPV_DECODER_MEDIACODEC:
+//                            setRowValue(R.string.vdec, "MediaCodec");
+//                            break;
+//                        default:
+//                            setRowValue(R.string.vdec, "");
+//                            break;
+//                    }
+//
+//                    float fpsOutput = mp.getVideoOutputFramesPerSecond();
+//                    float fpsDecode = mp.getVideoDecodeFramesPerSecond();
+//                    setRowValue(R.string.fps, String.format(Locale.US, "%.2f / %.2f", fpsDecode, fpsOutput));
+//
+//                    long videoCachedDuration = mp.getVideoCachedDuration();
+//                    long audioCachedDuration = mp.getAudioCachedDuration();
+//                    long videoCachedBytes    = mp.getVideoCachedBytes();
+//                    long audioCachedBytes    = mp.getAudioCachedBytes();
+//                    long tcpSpeed            = mp.getTcpSpeed();
+//                    long bitRate             = mp.getBitRate();
+//                    long seekLoadDuration    = mp.getSeekLoadDuration();
+//
+//                    setRowValue(R.string.v_cache, String.format(Locale.US, "%s, %s", formatedDurationMilli(videoCachedDuration), formatedSize(videoCachedBytes)));
+//                    setRowValue(R.string.a_cache, String.format(Locale.US, "%s, %s", formatedDurationMilli(audioCachedDuration), formatedSize(audioCachedBytes)));
+//                    setRowValue(R.string.load_cost, String.format(Locale.US, "%d ms", mLoadCost));
+//                    setRowValue(R.string.seek_cost, String.format(Locale.US, "%d ms", mSeekCost));
+//                    setRowValue(R.string.seek_load_cost, String.format(Locale.US, "%d ms", seekLoadDuration));
+//                    setRowValue(R.string.tcp_speed, String.format(Locale.US, "%s", formatedSpeed(tcpSpeed, 1000)));
+//                    setRowValue(R.string.bit_rate, String.format(Locale.US, "%.2f kbs", bitRate/1000f));
+//
+//                    mHandler.removeMessages(MSG_UPDATE_HUD);
+//                    mHandler.sendEmptyMessageDelayed(MSG_UPDATE_HUD, 500);
+//                }
+//            }
         }
     };
 }

@@ -6,5 +6,13 @@
     <com.demo.yilv.videodemo.media.IjkVideoView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" >
+
+
+    </com.demo.yilv.videodemo.media.IjkVideoView>
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button" />
 </RelativeLayout>

@@ -88,6 +88,8 @@ public class PlayerManager {
     private long newPosition = -1;
     private long defaultRetryTime=5000;
 
+    private IjkVideoView ijkVideoView;
+
     private OrientationEventListener orientationEventListener;
     private PlayerStateListener playerStateListener;
 
@@ -127,7 +129,7 @@ public class PlayerManager {
         this.defaultRetryTime = defaultRetryTime;
     }
 
-    public PlayerManager(final Activity activity) {
+    public PlayerManager(final Activity activity,IjkVideoView _ijkVideoView) {
         try {
             IjkMediaPlayer.loadLibrariesOnce(null);
             IjkMediaPlayer.native_profileBegin("libijkplayer.so");
@@ -138,7 +140,7 @@ public class PlayerManager {
         this.activity=activity;
         screenWidthPixels = activity.getResources().getDisplayMetrics().widthPixels;
 
-        videoView = (IjkVideoView) activity.findViewById(R.id.video_view);
+        videoView = _ijkVideoView;
         videoView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(IMediaPlayer mp) {
